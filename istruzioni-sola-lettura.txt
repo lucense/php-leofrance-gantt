@@ -1,0 +1,45 @@
+init
+
+
+loadTasks -> recupera le info dal json e crea la tabella dei dati.
+
+taskEditor.bind("saveFullEditor.gantt", -> aggiungere nella lista il nuovo campo
+
+GridEditor.prototype.openFullEditor = function -> aggiungere nuovo campo nella lista
+
+aggiungere campo nel TASK_EDITOR nel template
+
+aggiungere campo nel TASKEMPTYROW
+
+aggiungere campo nel TASKROW
+
+aggiungere campo nel TASKSEDITHEAD
+
+GanttMaster.prototype.loadTasks ->   var t = factory.build -> aggiungere campo nuovo
+
+function TaskFactory() { -> this.build = function( -> aggiungere campo
+
+function TaskFactory() { -> this.build = function( -> return new Task -> aggiungere campo
+
+function Task( -> aggiungere campo alla lista dei parametri e alla lista sotto 
+
+loadGridState() -> commentare $(this).width(gridState.colSizes[i]); (da verificare)
+
+ganttMaster.js -> this.permissions = { modificare i permessi
+
+$(document).ready(function(){
+  $('.gdfTable').find('input').attr('disabled',true)
+})
+
+rimuovere da TASK_EDITOR
+<div style="text-align: right; padding-top: 20px">
+    <span id="saveButton" class="button first" onClick="$(this).trigger('saveFullEditor.gantt');">Save</span>
+  </div>
+  
+  ganttDrawerSVG.js -> options da settare
+  
+  granttMaster.js -> 
+  //permissions from loaded project  
+  this.permissions.canWrite = false;//project.canWrite;
+  this.permissions.canAdd = false;//project.canAdd;
+  this.permissions.canDelete = false;//project.canDelete;
