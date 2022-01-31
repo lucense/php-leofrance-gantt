@@ -2,7 +2,6 @@
 require_once('config.php');
 
 
-
 //$client = new SoapClient(URL_ERP, $optionsAuth);
 
 $options = array(
@@ -15,7 +14,9 @@ try{
     $client = new SoapClient(URL_ERP, $options);
 } catch (SoapFault $e) {
     
-   echo "DENTRO<pre>"; print_r($e); die();
+   //echo "DENTRO<pre>"; print_r($e); die();
+
+   echo "Errore connessione recupero dati!"; die();
 }        
 //init context
 $CContext["codeLang"] = CODE_LANG;
@@ -26,9 +27,7 @@ $CContext["poolAlias"] = POOL_ALIAS;
 $CContext["requestConfig"] = REQUEST_CONFIG;
 //name method
 //<FLD NAME=\"YDATMOD\">" . $dataUltimaModifica . "</FLD>
-$subprog = METODO_DATI_GANTT;
-                               
-                                
+$subprog = METODO_DATI_GANTT;                                                
 $xmlInput = '<PARAM> 
      <GRP ID="GRP1" >
              <FLD NAME="YKEY" >'.$key.'</FLD>
@@ -44,7 +43,6 @@ $xmlInput = '<PARAM>
 $result = $client->run($CContext, $subprog, $xmlInput);                       
 $xml = simplexml_load_string($result->resultXml);
 $status = (int) trim($result->status);
-//echo "<pre>"; //var_dump($xml);
 
 $json = array(
  'canWrite'=> false

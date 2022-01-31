@@ -1,11 +1,12 @@
 <?php 
 
-
-if(isset($_GET['key'])){
-  $key=$_GET['key'];
+if(isset($_REQUEST['key'])){
+  $key=$_REQUEST['key'];
+  //die();
 } else {
   $key="GNT220100000002";
 }
+
 ?>
 <!DOCTYPE HTML>
 <html>
