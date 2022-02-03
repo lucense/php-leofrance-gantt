@@ -53,21 +53,49 @@ $json = array(
 );
 //$status = 0;
 if ($status == 1) {
-                                                           
+          /*
+          MPM01   (rosso) 
+MPM0M  (arancione)
+MPMCL   (giallo )
+PFM0C     (verde) 
+PFM0K    (tonalita verde) 
+PFM0L   (tonalita verde) 
+PFM0M (tonalita verde) 
+PFM0P (tonalita verde) 
+PFM0V (tonalita verde) 
+PFM0X (tonalita verde) 
+SLM01  (blu)
+SLM02  (azzurro)
+SLM03  (nero)
+SLM04  (viola)
+
+          
+          */                                                 
     foreach ($xml->TAB as $tab) {
         //var_dump($lin);
         //var_dump($lin->TAB);
-        $i = 0;
+        //$i = 0;
         $arr_data = array();
+        $arrParent = array();
+        foreach ($tab->LIN as $lin) {
+            $value = (string) $lin->FLD;
+            $arr_value = explode(';',$value);
+            list($nome,$d_inizio,$d_fine,$descrizione,$categoria,$livello,$parent) = $arr_value;
+            if($parent != ''){
+                $arrParent[] = $parent;
+            }
+        }
+
         foreach ($tab->LIN as $lin) {
             $value = (string) $lin->FLD;
             //var_dump($value);
             
             $arr_value = explode(';',$value);
            
-            $d_inizio =  str_replace( '/', '-',(string) trim($arr_value[1]));
-            $d_fine =  str_replace( '/', '-',(string) trim($arr_value[2]));
-            $nome = $arr_value[0];
+            list($nome,$d_inizio,$d_fine,$descrizione,$categoria,$livello,$parent) = $arr_value;
+
+            $d_inizio =  str_replace( '/', '-',(string) trim($d_inizio));
+            $d_fine =  str_replace( '/', '-',(string) trim($d_fine));
 
             $inizio = strtotime($d_inizio) *1000;
             $fine = strtotime($d_fine) *1000;
@@ -78,8 +106,10 @@ if ($status == 1) {
             $diff = (array) date_diff($date_start,$date_end);
 
             $arr_data[] = array(
-                "id" => $i
+                "id" => $nome
                 ,"name" => $nome
+                ,"descrizione" => $descrizione
+                ,"livello" => $livello
                 ,"canWrite" =>  false
                 ,"progress" => 0
                 ,"duration" => (int) $diff['days'] -1
@@ -89,18 +119,18 @@ if ($status == 1) {
                 ,"typeId" => ""
                 ,"description" => ""
                 , "level" =>  0
-                ,"status" => "STATUS_ACTIVE"
-                ,"depends" => ""
+                ,"status" => $categoria //STATUS_ACTIVE
+                ,"depends" => $parent
                 ,"start" =>$inizio
                 ,"end" => $fine
                 ,"startIsMilestone" => false
                 ,"endIsMilestone" => false
                 ,"collapsed" => false
-                ,"hasChild" => false
+                ,"hasChild" => (in_array($nome,$arrParent) ? true : false)
                 ,"assigs" => array()
             );
             
-            $i++;
+            //$i++;
         }
     }
     

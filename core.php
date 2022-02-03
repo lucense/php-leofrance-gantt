@@ -437,6 +437,9 @@ function showBaselineInfo (event,element){
     <tr style="height:40px">
       <th class="gdfColHeader" style="width:35px; "></th>
       <th class="gdfColHeader gdfResizable" style="width:300px;">Codice</th>
+      <th class="gdfColHeader gdfResizable" style="width:300px;">Descrizione Articolo</th>
+      <th class="gdfColHeader gdfResizable" style="width:80px;">Numero Livello</th>
+      <th class="gdfColHeader gdfResizable" style="width:80px;">Collegamento</th>
       <th class="gdfColHeader gdfResizable" style="width:80px;">Inizio</th>
       <th class="gdfColHeader gdfResizable" style="width:80px;">Fine</th>
       <th class="gdfColHeader gdfResizable" style="width:50px;">Durata</th>
@@ -452,6 +455,9 @@ function showBaselineInfo (event,element){
       <div class="exp-controller" align="center"></div>
       <input type="text" name="name" value="(#=obj.name#)" placeholder="name">
     </td>
+    <td class="gdfCell"><input type="text" name="descrizione"  value="(#=obj.descrizione#)" class="descrizione"></td>
+    <td class="gdfCell"><input type="text" name="livello"  value="(#=obj.livello#)" class="livello"></td>
+    <td class="gdfCell"><input type="text" name="depends"  value="(#=obj.depends#)" class="depends"></td>
     <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="(#=obj.duration#)"></td>

@@ -596,6 +596,50 @@ select.taskStatus{
   stroke-dasharray:2,2;
 }
 
+
+.colorByStatus .taskStatusSVG[status=MPM01]{
+  fill: red;
+}
+.colorByStatus .taskStatusSVG[status=MPM0M]{
+  fill: orange;
+}
+.colorByStatus .taskStatusSVG[status=MPMCL]{
+  fill: yellow;
+}
+.colorByStatus .taskStatusSVG[status=PFM0C]{
+  fill: green;
+}
+.colorByStatus .taskStatusSVG[status=PFM0K]{
+  fill: rgb(1, 160, 1);
+}
+.colorByStatus .taskStatusSVG[status=PFM0L]{
+  fill: rgb(2, 219, 2);
+}
+.colorByStatus .taskStatusSVG[status=PFM0M]{
+  fill: rgb(0, 116, 0);
+}
+.colorByStatus .taskStatusSVG[status=PFM0P]{
+  fill: rgb(0, 80, 0);
+}
+.colorByStatus .taskStatusSVG[status=PFM0V]{
+  fill: rgb(68, 148, 68);
+}
+.colorByStatus .taskStatusSVG[status=PFM0X]{
+  fill: rgb(114, 170, 114);
+}
+.colorByStatus .taskStatusSVG[status=SLM01]{
+  fill: blue;
+}
+.colorByStatus .taskStatusSVG[status=SLM02]{
+  fill: cyan;
+}
+.colorByStatus .taskStatusSVG[status=SLM03]{
+  fill: black;
+}
+.colorByStatus .taskStatusSVG[status=SLM04]{
+  fill: purple;
+}
+
 .colorByStatus .taskStatusSVG[status=STATUS_ACTIVE]{
   fill: #3BBF67;
 }

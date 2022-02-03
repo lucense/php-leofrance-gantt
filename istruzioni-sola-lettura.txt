@@ -43,3 +43,13 @@ rimuovere da TASK_EDITOR
   this.permissions.canWrite = false;//project.canWrite;
   this.permissions.canAdd = false;//project.canAdd;
   this.permissions.canDelete = false;//project.canDelete;
+
+
+
+  aggiunta della categoria (status)-> cambio di colore nel file gantt.css ricercare 
+  .colorByStatus .taskStatusSVG[status=STATUS_DONE]{
+  fill: #6EBEF4;
+
+ .taskStatus[status=STATUS_DONE]{
+  background-color: #6EBEF4;
+  color:#000;
