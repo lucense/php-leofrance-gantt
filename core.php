@@ -436,10 +436,13 @@ function showBaselineInfo (event,element){
     <thead>
     <tr style="height:40px">
       <th class="gdfColHeader" style="width:35px; "></th>
-      <th class="gdfColHeader gdfResizable" style="width:300px;">Codice</th>
+      <th class="gdfColHeader gdfResizable" style="width:180px;">Categoria</th>
+
+      <th class="gdfColHeader gdfResizable" style="width:200px;">Codice</th>
       <th class="gdfColHeader gdfResizable" style="width:300px;">Descrizione Articolo</th>
-      <th class="gdfColHeader gdfResizable" style="width:80px;">Numero Livello</th>
-      <th class="gdfColHeader gdfResizable" style="width:80px;">Collegamento</th>
+      
+      <th class="gdfColHeader gdfResizable" style="width:150px;">Numero Livello</th>
+      <th class="gdfColHeader gdfResizable" style="width:200px;">Collegamento</th>
       <th class="gdfColHeader gdfResizable" style="width:80px;">Inizio</th>
       <th class="gdfColHeader gdfResizable" style="width:80px;">Fine</th>
       <th class="gdfColHeader gdfResizable" style="width:50px;">Durata</th>
@@ -451,13 +454,15 @@ function showBaselineInfo (event,element){
 <div class="__template__" type="TASKROW"><!--
   <tr id="tid_(#=obj.id#)" taskId="(#=obj.id#)" class="taskEditRow (#=obj.isParent()?'isParent':''#) (#=obj.collapsed?'collapsed':''#)" level="(#=level#)">
     <th class="gdfCell" align="left" style=""><span class="taskRowIndex">(#=obj.getRow()+1#)</span></th>
+    <td class="gdfCell" ><input type="text" name="status" style="text-align:center" value="(#=obj.status#)" status="(#=obj.status#)" class="status colorCategory"></td>
     <td class="gdfCell indentCell" style="padding-left:(#=obj.level*10+18#)px;">
       <div class="exp-controller" align="center"></div>
       <input type="text" name="name" value="(#=obj.name#)" placeholder="name">
     </td>
     <td class="gdfCell"><input type="text" name="descrizione"  value="(#=obj.descrizione#)" class="descrizione"></td>
+    
     <td class="gdfCell"><input type="text" name="livello"  value="(#=obj.livello#)" class="livello"></td>
-    <td class="gdfCell"><input type="text" name="depends"  value="(#=obj.depends#)" class="depends"></td>
+    <td class="gdfCell"><input type="text" name="parent"  value="(#=obj.parent#)" class="parent"></td>
     <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="(#=obj.duration#)"></td>

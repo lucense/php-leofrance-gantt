@@ -4,7 +4,8 @@ if(isset($_REQUEST['key'])){
   $key=$_REQUEST['key'];
   //die();
 } else {
-  $key="GNT220100000002";
+  //$key="GNT220100000002";
+  $key="GNT220200000003";
 }
 
 ?>

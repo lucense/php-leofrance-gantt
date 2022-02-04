@@ -200,7 +200,7 @@ $.splittify = {
 
     var splitter = new Splitter(element, firstBox, secondBox, splitterBar);
     //splitter.perc =  perc;
-    splitter.perc =  17.5;
+    splitter.perc =  21.5;
 
     //override with saved one
     loadPosition();
