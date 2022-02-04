@@ -54,24 +54,7 @@ $json = array(
 );
 //$status = 0;
 if ($status == 1) {
-          /*
-          MPM01   (rosso) 
-MPM0M  (arancione)
-MPMCL   (giallo )
-PFM0C     (verde) 
-PFM0K    (tonalita verde) 
-PFM0L   (tonalita verde) 
-PFM0M (tonalita verde) 
-PFM0P (tonalita verde) 
-PFM0V (tonalita verde) 
-PFM0X (tonalita verde) 
-SLM01  (blu)
-SLM02  (azzurro)
-SLM03  (nero)
-SLM04  (viola)
-
-          
-          */                                                 
+                                                 
     foreach ($xml->TAB as $tab) {
         //var_dump($lin);
         //var_dump($lin->TAB);
