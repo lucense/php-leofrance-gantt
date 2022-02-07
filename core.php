@@ -1,3 +1,8 @@
+<style>
+
+  <?php echo $css;?>
+</style>
+
 <script type="text/javascript">
 
 var ge;
@@ -436,7 +441,6 @@ function showBaselineInfo (event,element){
     <thead>
     <tr style="height:40px">
       <th class="gdfColHeader" style="width:35px; "></th>
-      <th class="gdfColHeader gdfResizable" style="width:180px;">Categoria</th>
 
       <th class="gdfColHeader gdfResizable" style="width:200px;">Codice</th>
       <th class="gdfColHeader gdfResizable" style="width:300px;">Descrizione Articolo</th>
@@ -454,7 +458,6 @@ function showBaselineInfo (event,element){
 <div class="__template__" type="TASKROW"><!--
   <tr id="tid_(#=obj.id#)" taskId="(#=obj.id#)" class="taskEditRow (#=obj.isParent()?'isParent':''#) (#=obj.collapsed?'collapsed':''#)" level="(#=level#)">
     <th class="gdfCell" align="left" style=""><span class="taskRowIndex">(#=obj.getRow()+1#)</span></th>
-    <td class="gdfCell" ><input type="text" name="status" style="text-align:center" value="(#=obj.status#)" status="(#=obj.status#)" class="status colorCategory"></td>
     <td class="gdfCell indentCell" style="padding-left:(#=obj.level*10+18#)px;">
       <div class="exp-controller" align="center"></div>
       <input type="text" name="name" value="(#=obj.name#)" placeholder="name">
