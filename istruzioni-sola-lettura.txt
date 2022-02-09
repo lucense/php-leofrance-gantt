@@ -53,3 +53,16 @@ rimuovere da TASK_EDITOR
  .taskStatus[status=STATUS_DONE]{
   background-color: #6EBEF4;
   color:#000;
+
+
+aggiungere title a rettangoli- > file ganttDrawerSVG -> riga 445 circa 
+svg.title(taskSvg, 'aaaaaaaaaaaaaa' + " -> " + 'sssssssssssssssss');
+
+aggiunta popup dettaglio -> ganttDrawerSVG -> riga 236 circa
+  if(self.master.permissions.canSeePopEdit){
+    taskBox.dblclick(function () {
+        self.master.editor.openFullEditor(task,false);
+    })
+  }
+
+  

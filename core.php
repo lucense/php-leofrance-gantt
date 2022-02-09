@@ -403,6 +403,7 @@ function showBaselineInfo (event,element){
   <!--
   <div class="ganttButtonBar noprint">
     <div class="buttons">
+       <div style="float:left">
       <img src="res/logo-leofrance.png" align="absmiddle" style="max-width: 65px; padding-right: 15px">
 
       <button onclick="$('#workSpace').trigger('undo.gantt');return false;" class="button textual icon requireCanWrite" title="undo"><span class="teamworkIcon">&#39;</span></button>
@@ -431,7 +432,21 @@ function showBaselineInfo (event,element){
       <span class="ganttButtonSeparator"></span>
       <button onclick="ge.element.toggleClass('colorByStatus' );return false;" class="button textual icon"><span class="teamworkIcon">&sect;</span></button>
 
+      <button onclick="hideShowCollegamenti(this);" class="button textual icon" title="nascondi/mostra collegamenti"><span class="teamworkIcon">-</span></button>
+    </div>
+    <div style="float:right;padding-top: 12px;">
+      <form action="index.php">  
+    <div style="float:left;padding-top: 5px; margin-right: 5px;">
+      <input type="hidden" value="<?= $key ?>" name="key" id="key">
+      <input type="hidden" value="1" name="is_filter" id="is_filter">
+        <label>Seleziona Colore</label>
+      </div>
+        <div style="float:left;width:300px">
+          <?php echo $selectColor ?>
 
+    </div>
+    <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra</button>
+    </form>
   </div>
   -->
 </div>
@@ -729,5 +744,59 @@ $(document).on("change", "#load-file", function() {
   $(document).ready(function(){
     $('.gdfTable').find('input').attr('disabled',true)
 
+  })
+  function hideShowCollegamenti(el){
+  if($('#linksGroup').is(':visible')){
+    $('#linksGroup').hide();
+  } else {
+    $('#linksGroup').show();
+  }
+}
+
+  $(document).ready(function(){
+    //$("#selectColor").chosen();
+    $("#selectColor").multiselect({
+      columns  : 3,
+      search   : true,
+      selectAll: true,
+      texts    : {
+          placeholder : 'Seleziona un colore da visualizzare',
+          search      : 'Cerca colore',
+          selectAll   : 'Seleziona tutto',   
+          unselectAll : 'Deseleziona tutto'
+      }
+    })/*.change(function(){
+      //clearGantt();
+      var el = $(this);
+      var val = $(el).val();
+      var key = $('#key').val();
+
+      $.ajax({
+          url:'controller.php'
+          ,type: 'POST'
+          ,data: {
+            key : key
+            ,selectColor : val
+            ,is_filter:1
+          }
+          ,dataType:'JSON'
+          ,success:function(data){
+              if(data.esito == 'OK'){
+                alert('ok')
+                
+//                setTimeout(function(){
+ clearGantt();
+
+                ge.loadProject(data.data);
+                ge.checkpoint();
+              } else {
+                alert('Errore recupero dati Gantt.')
+              }
+          }
+          ,error:function(){
+            alert('Errore chiamata Gantt.')
+          }
+      })
+    })*/;
   })
 </script>

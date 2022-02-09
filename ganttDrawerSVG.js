@@ -24,7 +24,7 @@
  todo For compatibility with IE and SVGElements.getElementsByClassName not implemented changed every find starting from SVGElement (the other works fine)
  .find(".classname"))  -> .find("[class*=classname])
  */
-function Ganttalendar(startMillis, endMillis, master, minGanttSize) {
+ function Ganttalendar(startMillis, endMillis, master, minGanttSize) {
   this.master = master; // is the a GantEditor instance
   this.element; // is the jquery element containing gantt
 
@@ -232,7 +232,14 @@ Ganttalendar.prototype.drawTask = function (task) {
 
   if (self.showCriticalPath && task.isCritical)
     taskBox.addClass("critical");
-
+/*
+    //apre popup dettaglio
+  if(self.master.permissions.canSeePopEdit){
+    taskBox.dblclick(function () {
+        self.master.editor.openFullEditor(task,false);
+    })
+  }
+*/
   if (this.master.permissions.canWrite || task.canWrite) {
 
     //bind all events on taskBox
@@ -250,9 +257,6 @@ Ganttalendar.prototype.drawTask = function (task) {
           $(".ganttSVGBox .focused").removeClass("focused");
         })
 
-      }).dblclick(function () {
-        if (self.master.permissions.canSeePopEdit)
-          self.master.editor.openFullEditor(task,false);
       }).mouseenter(function () {
         //bring to top
         var el = $(this);
@@ -442,6 +446,8 @@ Ganttalendar.prototype.drawTask = function (task) {
 
     //task label
     svg.text(taskSvg, "100%", 18, task.name, {class:"taskLabelSVG", transform:"translate(20,-5)"});
+    //console.log(task)
+    //svg.title(taskSvg,'',{id:'title_'+task.name});
 
     //link tool
     if (task.level>0){

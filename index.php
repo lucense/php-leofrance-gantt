@@ -1,13 +1,6 @@
 <?php 
 
-if(isset($_REQUEST['key'])){
-  $key=$_REQUEST['key'];
-  //die();
-} else {
-  $key="GNT220100000002";
-  $key="GNT220200000003";
-  //$key="GNT220100000003";
-}
+require_once('controller.php');
 
 ?>
 <!DOCTYPE HTML>
@@ -23,12 +16,15 @@ if(isset($_REQUEST['key'])){
   <link rel=stylesheet href="gantt.css" type="text/css">
   <link rel=stylesheet href="ganttPrint.css" type="text/css" media="print">
   <link rel=stylesheet href="libs/jquery/valueSlider/mb.slider.css" type="text/css" media="print">
+  <link rel=stylesheet href="libs/jquery/jquery.multiselect.css" type="text/css">
 
   <script src="libs/jquery-3.1.1.min.js"></script>
   <script src="libs/jquery-ui-1.12.1.min.js"></script>
 
   <script src="libs/jquery/jquery.livequery.1.1.1.min.js"></script>
   <script src="libs/jquery/jquery.timers.js"></script>
+
+  <script src="libs/jquery/jquery.multiselect.js"></script>
  
   <script src="libs/utilities.js"></script>
   <script src="libs/forms.js"></script>
@@ -87,11 +83,16 @@ if(isset($_REQUEST['key'])){
 
 <form id="gimmeBack" style="display:none;" action="../gimmeBack.jsp" method="post" target="_blank"><input type="hidden" name="prj" id="gimBaPrj"></form>
 
-<?php 
-  require_once('controller.php');
+<?php
+  
+  if($status){
+    require_once('core.php');
+  } else {
+    echo "<div style='text-align:center;'><h2>Recupero dati non riuscito oppure nessun dato presente per la generazione del Gantt</h2></div>";
+  }
+  
+
 ?>
-
-
 
 </body>
 </html>
