@@ -29,7 +29,7 @@ $(function() {
   ge.loadProject(project);
   ge.checkpoint(); //empty the undo stack
 
-  initializeHistoryManagement(ge.tasks[0].id);
+  //initializeHistoryManagement(ge.tasks[0].id);
 
 
 });
@@ -439,7 +439,7 @@ function showBaselineInfo (event,element){
     <div style="float:left;padding-top: 5px; margin-right: 5px;">
       <input type="hidden" value="<?= $key ?>" name="key" id="key">
       <input type="hidden" value="1" name="is_filter" id="is_filter">
-        <label>Seleziona Colore</label>
+        <label>Seleziona Famiglia</label>
       </div>
         <div style="float:left;width:300px">
           <?php echo $selectColor ?>
@@ -746,11 +746,15 @@ $(document).on("change", "#load-file", function() {
 
   })
   function hideShowCollegamenti(el){
-  if($('#linksGroup').is(':visible')){
-    $('#linksGroup').hide();
-  } else {
-    $('#linksGroup').show();
-  }
+
+    var x = document.getElementById("linksGroup");
+    if(window.getComputedStyle(x).display === "none"){
+
+      document.getElementById('linksGroup').style.display = 'block';
+    } else  {
+
+      document.getElementById('linksGroup').style.display = 'none';
+    }
 }
 
   $(document).ready(function(){
@@ -760,8 +764,8 @@ $(document).on("change", "#load-file", function() {
       search   : true,
       selectAll: true,
       texts    : {
-          placeholder : 'Seleziona un colore da visualizzare',
-          search      : 'Cerca colore',
+          placeholder : 'Seleziona una famiglia da visualizzare',
+          search      : 'Cerca Famiglia',
           selectAll   : 'Seleziona tutto',   
           unselectAll : 'Deseleziona tutto'
       }

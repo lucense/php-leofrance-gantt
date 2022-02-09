@@ -1681,12 +1681,12 @@ GanttMaster.prototype.manageSaveRequired=function(ev, showSave) {
   }
 
 
-  if (showSave) {
+  /*if (showSave) {
     $("body").stopTime("gantt.manageSaveRequired").oneTime(200, "gantt.manageSaveRequired", checkChanges);
   } else {
     $("#LOG_CHANGES_CONTAINER").hide();
   }
-
+*/
 }
 
 
