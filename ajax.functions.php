@@ -15,7 +15,7 @@ if($_REQUEST['function'] == 'getSelectCollegamento'){
         $parent = isset($a['parent']) ? $a['parent'] : '';
         $colorTag = $a['colorTag'];
 
-        if($parent != '' && in_array($parent,$arrPadri) === false && ( in_array($colorTag,$arrColorSelected) === true && in_array($arrTot[$parent]['colorTag'],$arrColorSelected) === true  || empty($arrColorSelected) )){
+        if($parent != '' && in_array($parent,$arrPadri) === false && ( in_array($colorTag,$arrColorSelected) === true || in_array($arrTot[$parent]['colorTag'],$arrColorSelected) === true  || empty($arrColorSelected) )){
             $arrPadri[] = trim($parent);
             if( !empty($arrCollegamento) && in_array($parent,$arrCollegamento) !== false
             ){
