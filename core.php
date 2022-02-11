@@ -442,7 +442,7 @@ function showBaselineInfo (event,element){
         <div style="float:left;padding-top: 5px; margin-right: 5px;">  
             <label>Seleziona Famiglia</label>
         </div>
-        <div style="float:left;width:300px">
+        <div id='div-color' style="float:left;width:300px">
               <?php echo $selectColor ?>
           
         </div>
@@ -771,9 +771,15 @@ $(document).on("change", "#load-file", function() {
 }
 
   $(document).ready(function(){
-    //$("#selectColor").chosen();
+
+    initSelectCollegamento();
+    initSelectColore();
+  
+  })
+
+  function initSelectColore(){
     $("#selectColor").multiselect({
-      columns  : 3,
+      columns  : 1,
       search   : true,
       selectAll: true,
       texts    : {
@@ -782,69 +788,84 @@ $(document).on("change", "#load-file", function() {
           selectAll   : 'Seleziona tutto',   
           unselectAll : 'Deseleziona tutto'
       }
-    })/*.change(function(){
-    //alert('change')
-      $('#div-collegamento').html("<?= $selectCollegamento ?>");
-      $("#selectCollegamento").multiselect({
-      columns  : 1,
-      search   : true,
-      selectAll: true,
-      texts    : {
-          placeholder : 'Seleziona un Collegamento',
-          search      : 'Cerca Collegamento',
-          selectAll   : 'Seleziona tutto',   
-          unselectAll : 'Deseleziona tutto'
-      }
     })
+    getSelectCollegamento();
+    
+  }
 
-      
-  
-  })*/
-      
-    /*.change(function(){
-      //clearGantt();
-      var el = $(this);
-      var val = $(el).val();
-      var key = $('#key').val();
+  function initSelectCollegamento(){
+    $("#selectCollegamento").multiselect({
+        columns  : 1,
+        search   : true,
+        selectAll: true,
+        texts    : {
+            placeholder : 'Seleziona un Collegamento',
+            search      : 'Cerca Collegamento',
+            selectAll   : 'Seleziona tutto',   
+            unselectAll : 'Deseleziona tutto'
+        }
+      })
+      getSelectColor();
+  }
 
+  function getSelectCollegamento(){
+    $('#selectColor').unbind('change');
+    $('#selectColor').change(function(){
+      var selectColor = $(this).val();
+      var selectCollegamento = $('#selectCollegamento').val();
       $.ajax({
-          url:'controller.php'
+          url:'ajax.functions.php'
           ,type: 'POST'
           ,data: {
-            key : key
-            ,selectColor : val
-            ,is_filter:1
+            selectColor:selectColor
+            ,selectCollegamento:selectCollegamento
+            ,function:'getSelectCollegamento'
           }
           ,dataType:'JSON'
           ,success:function(data){
               if(data.esito == 'OK'){
-                alert('ok')
-                
-          //                setTimeout(function(){
-          clearGantt();
-
-                ge.loadProject(data.data);
-                ge.checkpoint();
+                $('#div-collegamento').html(data.select);
+                initSelectCollegamento();
+                getSelectColor();
               } else {
-                alert('Errore recupero dati Gantt.')
+                alert('Errore recupero dati Collegamento')
               }
           }
           ,error:function(){
-            alert('Errore chiamata Gantt.')
+            alert('Errore recupero menù Collegamento.')
           }
       })
-    })*/;
-   $("#selectCollegamento").multiselect({
-      columns  : 1,
-      search   : true,
-      selectAll: true,
-      texts    : {
-          placeholder : 'Seleziona un Collegamento',
-          search      : 'Cerca Collegamento',
-          selectAll   : 'Seleziona tutto',   
-          unselectAll : 'Deseleziona tutto'
-      }
-    })
-  
-  })
+    });
+  }
+
+  function getSelectColor(){
+    $('#selectCollegamento').unbind('change');
+    $('#selectCollegamento').change(function(){
+      var selectCollegamento = $(this).val();
+      var selectColor = $('#selectColor').val();
+     
+      $.ajax({
+          url:'ajax.functions.php'
+          ,type: 'POST'
+          ,data: {
+            selectColor:selectColor
+            ,selectCollegamento:selectCollegamento
+            ,function:'getSelectColor'
+          }
+          ,dataType:'JSON'
+          ,success:function(data){
+              if(data.esito == 'OK'){
+                $('#div-color').html(data.select);
+                initSelectColore();
+                getSelectCollegamento();
+              } else {
+                alert('Errore recupero dati Famiglie')
+              }
+          }
+          ,error:function(a,b,c){
+            alert('Errore recupero menù Famiglie.'+a+b+c)
+          }
+      })
+    });
+  }
 </script>

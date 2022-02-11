@@ -142,14 +142,14 @@ if ($status == 1) {
           
           list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;
           $arrTot[$nome] = array('id'=>$i
-            , 'nome' => $nome
-            ,'color'=>$color
-            ,'parent'=>$parent
-            ,'d_inizio'=> $d_inizio
-            ,'d_fine'=>$d_fine
-            ,'descrizione'=>$descrizione
-            ,'livello'=>$livello
-            ,'colorTag'=>$colorTag
+            , 'nome' => trim($nome)
+            ,'color'=> trim($color)
+            ,'parent'=> trim($parent)
+            ,'d_inizio'=> trim($d_inizio)
+            ,'d_fine'=> trim($d_fine)
+            ,'descrizione'=> trim($descrizione)
+            ,'livello'=> trim($livello)
+            ,'colorTag'=> trim($colorTag)
           );
           //var_dump($nome);
           if(in_array($colorTag,$arrColor) === false){
@@ -181,12 +181,10 @@ if ($status == 1) {
             $selectCollegamento .= "<option ".$selected."  value='".trim($parent)."'>".trim($parent)."</option>";
           }
 
-          if($parent == '315-7214-008_05'){
-            //var_dump('-'.$nome.'-');
-          }
-
           $i++;
         }
+
+        $_SESSION['arrTot'] = $arrTot;
 
         $selectColor .= "</select>";
         $selectCollegamento .= "</select>";
