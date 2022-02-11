@@ -93,6 +93,35 @@ try{
 $CContext["codeLang"] = CODE_LANG;
 $CContext["poolAlias"] = POOL_ALIAS;
 $CContext["requestConfig"] = REQUEST_CONFIG;
+$subprog = METODO_DATI_GANTT_YINFGANTT;                                                
+$xmlInput = '<PARAM> 
+     <GRP ID="GRP1" >
+             <FLD NAME="YKEY" >'.$key.'</FLD>
+     </GRP>
+    <TAB ID="GRP2" >
+         <LIN>
+         
+                   <FLD NAME="YSTR" ></FLD>
+            </LIN>
+        </TAB>
+    </PARAM>
+';
+
+$result = $client->run($CContext, $subprog, $xmlInput);                       
+$xml = simplexml_load_string($result->resultXml);
+$status = (int) trim($result->status);
+$titolo = $result->resultXml;
+
+
+try{
+    $client = new SoapClient(URL_ERP, $options);
+} catch (SoapFault $e) {
+   echo "<div style='text-align:center;'><h2>Errore connessione recupero dati!</h2></div>";
+}        
+
+$CContext["codeLang"] = CODE_LANG;
+$CContext["poolAlias"] = POOL_ALIAS;
+$CContext["requestConfig"] = REQUEST_CONFIG;
 $subprog = METODO_DATI_GANTT;                                                
 $xmlInput = '<PARAM> 
      <GRP ID="GRP1" >
@@ -137,7 +166,6 @@ if ($status == 1) {
         //creo array generale da xml e creo le select dei filtri
         foreach ($tab->LIN as $lin) {
           $value = (string) $lin->FLD;
-          //var_dump($value);
           $arr_value = explode('|',$value);
           
           list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;

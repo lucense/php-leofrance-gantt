@@ -49,8 +49,7 @@ if($_REQUEST['function'] == 'getSelectColor'){
         if(in_array($parent,$arrCollegamento) === true || in_array($nome,$arrCollegamento) || empty($arrCollegamento) ){
             $arrColored[] = $colorTag;
         }
-
-
+        
     }
 
     foreach($arrTot as $k => $a){

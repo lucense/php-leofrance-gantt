@@ -433,6 +433,8 @@ function showBaselineInfo (event,element){
       <button onclick="ge.element.toggleClass('colorByStatus' );return false;" class="button textual icon"><span class="teamworkIcon">&sect;</span></button>
 <span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
       <button onclick="hideShowCollegamenti(this);" class="button textual icon" title="nascondi/mostra collegamenti"><span class="teamworkIcon">-</span>Collegamenti si/no</button>
+      <span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
+      <span><b><?= $titolo ?></b></span>
     </div>
     <div style="float:right;padding-top: 12px;">
       <form action="index.php">  
