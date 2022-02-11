@@ -529,7 +529,7 @@ Buttons
 .button.textual, .button.buttonImg {
   border: none;
   background-color: transparent;
-  color: #68979B;
+  color: #000000;
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   -o-border-radius: 0;
@@ -567,6 +567,7 @@ a.button:hover {
 
 .button.textual:hover, .button.buttonImg:hover {
   background-color: transparent;
+  color: #616161;
 }
 
 span.separator {

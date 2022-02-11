@@ -356,12 +356,14 @@ Task.prototype.propagateToInferiors = function (end) {
   //console.debug("propagateToInferiors "+this.name)
   //and now propagate to inferiors
   var todoOk = true;
+  
   var infs = this.getInferiors();
   if (infs && infs.length > 0) {
     for (var i = 0; i < infs.length; i++) {
       var link = infs[i];
       if (!link.to.canWrite) {
-        this.master.setErrorOnTransaction(GanttMaster.messages["CANNOT_WRITE"] + "\n\"" + link.to.name + "\"", link.to);
+        console.log(this)
+        this.master.setErrorOnTransaction(GanttMaster.messages["CANNOT_WRITE"] + "\n\"" + link.to.name + "\""+ link.to.parent, link.to);
         break;
       }
       todoOk = link.to.moveTo(end, false,true); //this is not the right date but moveTo checks start

@@ -431,22 +431,35 @@ function showBaselineInfo (event,element){
      
       <span class="ganttButtonSeparator"></span>
       <button onclick="ge.element.toggleClass('colorByStatus' );return false;" class="button textual icon"><span class="teamworkIcon">&sect;</span></button>
-
-      <button onclick="hideShowCollegamenti(this);" class="button textual icon" title="nascondi/mostra collegamenti"><span class="teamworkIcon">-</span></button>
+<span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
+      <button onclick="hideShowCollegamenti(this);" class="button textual icon" title="nascondi/mostra collegamenti"><span class="teamworkIcon">-</span>Collegamenti si/no</button>
     </div>
     <div style="float:right;padding-top: 12px;">
       <form action="index.php">  
-    <div style="float:left;padding-top: 5px; margin-right: 5px;">
-      <input type="hidden" value="<?= $key ?>" name="key" id="key">
-      <input type="hidden" value="1" name="is_filter" id="is_filter">
-        <label>Seleziona Famiglia</label>
-      </div>
+        <input type="hidden" value="<?= $key ?>" name="key" id="key">
+        <input type="hidden" value="1" name="is_filter" id="is_filter">
+        
+        <div style="float:left;padding-top: 5px; margin-right: 5px;">  
+            <label>Seleziona Famiglia</label>
+        </div>
         <div style="float:left;width:300px">
-          <?php echo $selectColor ?>
+              <?php echo $selectColor ?>
+          
+        </div>
 
-    </div>
-    <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra</button>
-    </form>
+        <div style="float:left;padding-top: 5px;">  
+          <span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
+        </div>
+        
+        <div style="float:left;padding-top: 5px; margin-right: 5px; margin-left: 5px;">  
+            <label>Seleziona Collegamento</label>
+        </div>
+        <div id='div-collegamento' style="float:left;width:300px">
+           <?php echo $selectCollegamento ?>  
+         </div>
+
+        <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra</button>
+      </form>
   </div>
   -->
 </div>
@@ -770,6 +783,25 @@ $(document).on("change", "#load-file", function() {
           unselectAll : 'Deseleziona tutto'
       }
     })/*.change(function(){
+    //alert('change')
+      $('#div-collegamento').html("<?= $selectCollegamento ?>");
+      $("#selectCollegamento").multiselect({
+      columns  : 1,
+      search   : true,
+      selectAll: true,
+      texts    : {
+          placeholder : 'Seleziona un Collegamento',
+          search      : 'Cerca Collegamento',
+          selectAll   : 'Seleziona tutto',   
+          unselectAll : 'Deseleziona tutto'
+      }
+    })
+
+      
+  
+  })*/
+      
+    /*.change(function(){
       //clearGantt();
       var el = $(this);
       var val = $(el).val();
@@ -788,8 +820,8 @@ $(document).on("change", "#load-file", function() {
               if(data.esito == 'OK'){
                 alert('ok')
                 
-//                setTimeout(function(){
- clearGantt();
+          //                setTimeout(function(){
+          clearGantt();
 
                 ge.loadProject(data.data);
                 ge.checkpoint();
@@ -802,5 +834,17 @@ $(document).on("change", "#load-file", function() {
           }
       })
     })*/;
+   $("#selectCollegamento").multiselect({
+      columns  : 1,
+      search   : true,
+      selectAll: true,
+      texts    : {
+          placeholder : 'Seleziona un Collegamento',
+          search      : 'Cerca Collegamento',
+          selectAll   : 'Seleziona tutto',   
+          unselectAll : 'Deseleziona tutto'
+      }
+    })
+  
   })
 </script>

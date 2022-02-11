@@ -64,6 +64,8 @@ function RGBToHSL($RGB) {
 }
 
 $arrColorSelected = (isset($_REQUEST['selectColor']) ? $_REQUEST['selectColor'] : array() );
+//var_dump($arrColorSelected);
+$arrCollegamento = (isset($_REQUEST['selectCollegamento']) ? $_REQUEST['selectCollegamento'] : array() );
 $is_filter = (isset($_REQUEST['is_filter']) ? $_REQUEST['is_filter'] : 0 );
 
 if(isset($_REQUEST['key'])){
@@ -120,75 +122,144 @@ if ($status == 1) {
          
 
 
-    foreach ($xml->TAB as $tab) {
+  foreach ($xml->TAB as $tab) {
         //var_dump($lin);
         //var_dump($lin->TAB);
         $i = 0;
         $arr_data = array();
-        $arrParent = array('id'=>array(),'parent'=>array());
         $arrColor = array();
-        $arrExcludeParent = array();
+        $arrPadri = array();
         $selectColor = "<select id='selectColor' name='selectColor[]' multiple>";
+        $selectCollegamento = "<select id='selectCollegamento' name='selectCollegamento[]' multiple>";
+
+        $arrTot = array();
+
+        //creo array generale da xml e creo le select dei filtri
         foreach ($tab->LIN as $lin) {
-            
-            $value = (string) $lin->FLD;
-            //var_dump($value);
-            $arr_value = explode('|',$value);
-            
-            list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;
+          $value = (string) $lin->FLD;
+          //var_dump($value);
+          $arr_value = explode('|',$value);
+          
+          list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;
+          $arrTot[$nome] = array('id'=>$i
+            , 'nome' => $nome
+            ,'color'=>$color
+            ,'parent'=>$parent
+            ,'d_inizio'=> $d_inizio
+            ,'d_fine'=>$d_fine
+            ,'descrizione'=>$descrizione
+            ,'livello'=>$livello
+            ,'colorTag'=>$colorTag
+          );
+          //var_dump($nome);
+          if(in_array($colorTag,$arrColor) === false){
 
-            if(!empty($arrColorSelected) && !in_array($color,$arrColorSelected))
-            {
-                  $arrExcludeParent[] = trim($nome);
-              
-            } else {
-              
-              if($parent != ''){
-                $arrParent['id'][] = $i;
-                $arrParent['parent'][] = $parent;
-              }
-
+            $arrColor[] = $colorTag;
+            
+            if( (!empty($arrColorSelected) && in_array($colorTag,$arrColorSelected) !== false && $is_filter)
+                ||empty($arrColorSelected) && !$is_filter
+            ){
+                $selected = 'selected';
+            } else{
+                $selected  = "";
             }
-
-            if(!in_array($color,$arrColor)){
-
-              $arrColor[] = $color;
-              
-              if( (!empty($arrColorSelected) && in_array($color,$arrColorSelected) && $is_filter)
-                  ||empty($arrColorSelected) && !$is_filter
-              ){
-                  $selected = 'selected';
-              } else{
-                  $selected  = "";
-              }
-              
-              $selectColor .= "<option ".$selected." style='background-color:".$color."' value='".$color."'>".trim($colorTag)."</option>";
-            }
-
             
-            
-            $i++;
-        }
-        $selectColor .= "</select>";
+            $selectColor .= "<option ".$selected." style='background-color:".$color."' value='".trim($colorTag)."'>".trim($colorTag)."</option>";
+          }
 
-        //var_dump($arrExcludeParent);//die();
-
-        $i = 0;
-        $arrOld = array();
-        
-        $css = '';
-        foreach ($tab->LIN as $lin) {
-
-            $value = (string) $lin->FLD;
-            $arr_value = explode('|',$value);
            
-            //echo $value.' - '.$i;
+          if($parent != '' && in_array($parent,$arrPadri) === false){
+            $arrPadri[] = trim($parent);
+            if( (!empty($arrCollegamento) && in_array($parent,$arrCollegamento) !== false && $is_filter)
+                ||empty($arrCollegamento) && !$is_filter
+            ){
+                $selected = 'selected';
+            } else{
+                $selected  = "";
+            }
+            
+            $selectCollegamento .= "<option ".$selected."  value='".trim($parent)."'>".trim($parent)."</option>";
+          }
 
-            list($nome,$d_inizio,$d_fine,$descrizione,$color/*$categoria*/,$livello,$parent,$colorTag) = $arr_value;
+          if($parent == '315-7214-008_05'){
+            //var_dump('-'.$nome.'-');
+          }
 
-            if(($is_filter && in_array($color,$arrColorSelected) ) || !$is_filter ){
-              $d_inizio =  str_replace( '/', '-',(string) trim($d_inizio));
-              $d_fine =  str_replace( '/', '-',(string) trim($d_fine));
+          $i++;
+        }
+
+        $selectColor .= "</select>";
+        $selectCollegamento .= "</select>";
+
+        $arrParent = $arrTot;
+
+        $arrayClean = array();
+
+        //verifico colori
+        foreach($arrTot as $k => $a){
+          
+          if( $is_filter && in_array($a['colorTag'],$arrColorSelected) === false ){
+
+          } else {
+            $arrayClean[$k] = $a;
+          }
+
+        }
+
+        $arrayClean2 = array();
+        //verifico collegamenti
+        foreach($arrayClean as $k => $a){
+          
+          if( $a['parent'] != '') {
+           
+            if($is_filter){
+              if (  in_array($a['parent'],$arrCollegamento) === false){
+    
+              } else {
+                if(!isset($arrayClean2[$a['parent']])){
+                  $arrayClean2[$a['parent']] = $arrTot[$a['parent']];
+              
+                }
+                $arrayClean2[$k] = $a;
+    
+              }
+            } else {
+              $arrayClean2[$k] = $a;
+            }
+          } 
+
+        }
+
+        //riordino l'array per le dipendenze
+        $arrayFinal = array();
+        $arrParent = array();
+        $i =1;
+        foreach($arrayClean2 as $k => $a){
+            
+          $arrayFinal[$i] = $a;
+          $arrParent[$k] = $i;
+          $i++;
+        }
+
+
+
+        $css = '';
+        $arr_data = array();
+        //echo '<pre>';var_dump($arrTot); die;
+        foreach ($arrayFinal as $k => $a) {
+
+              
+              $nome = $a['nome'];
+              //var_dump( $nome.'.$i');
+
+              $id = $a['id'];
+              $parent = $a['parent'];
+              $livello = $a['livello'];
+              $color = $a['color'];
+              $descrizione = $a['descrizione'];
+
+              $d_inizio =  str_replace( '/', '-',(string) trim($a['d_inizio']));
+              $d_fine =  str_replace( '/', '-',(string) trim($a['d_fine']));
 
               $inizio = strtotime($d_inizio) *1000;
               $fine = strtotime($d_fine) *1000;
@@ -197,14 +268,6 @@ if ($status == 1) {
               $date_end = date_create_from_format('d-m-Y',$d_fine);
 
               $diff = (array) date_diff($date_start,$date_end);
-              //echo $arrParent['parent'][array_search($parent,$arrParent['parent'])].' - nome '.$nome.' - parent '.$parent."<br>";
-
-              $id_parent = '';
-
-              if($parent != ''){
-                  $id_parent = array_search($parent,$arrParent['parent']);
-              }
-
 
               $rgb = HTMLToRGB($color);
               $hsl = RGBToHSL($rgb);
@@ -224,10 +287,15 @@ if ($status == 1) {
                 }
                 "; 
 
-                //echo in_array(trim($parent),$arrExcludeParent) ? $parent : '';
+              $id_parent = '';
+
+              if($parent != '' && isset($arrParent[$parent])){
+                $id_parent = $arrParent[$parent];
+                //$id_parent = 1;
+              }  
 
               $arr_data[] = array(
-                  "id" => $i
+                  "id" => $id
                   ,"name" => $nome
                   ,"descrizione" => $descrizione
                   ,"livello" => $livello
@@ -242,29 +310,28 @@ if ($status == 1) {
                   ,"description" => ""
                   , "level" =>  0
                   ,"status" => trim($nome) //STATUS_ACTIVE
-                  ,"depends" => in_array(trim($parent),$arrExcludeParent) ? '' : (string) $id_parent
+                  ,"depends" => (string) $id_parent
                   ,"start" =>$inizio
                   ,"end" => $fine
                   ,"startIsMilestone" => false
                   ,"endIsMilestone" => false
                   ,"collapsed" => false
-                  ,"hasChild" => (in_array($nome,$arrParent['parent']) !== false ? true : false)
+                  ,"hasChild" => true//(in_array($nome,$arrParent['parent']) !== false ? true : false)
                   ,"assigs" => array()
               );
-            }
-
-            $i++;
-            $arrOld[] = $nome;
-           
-             
+            
         }
 
-    }
-    //echo "<pre>"; var_dump($arrColor);
+      }  
+
+     // var_dump($arr_data);die;
+    //echo "<pre>"; var_dump($arrColorSelected);
     //die();
     $json['tasks'] = $arr_data;
 
     $json_data = json_encode($json);
+
+    //echo "<pre>"; var_dump($json_data);die();
     
 } 
 
