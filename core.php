@@ -403,7 +403,7 @@ function showBaselineInfo (event,element){
   <!--
   <div class="ganttButtonBar noprint">
     <div class="buttons">
-       <div style="float:left">
+       <div style="">
       <img src="res/logo-leofrance.png" align="absmiddle" style="max-width: 65px; padding-right: 15px">
 
       <button onclick="$('#workSpace').trigger('undo.gantt');return false;" class="button textual icon requireCanWrite" title="undo"><span class="teamworkIcon">&#39;</span></button>
@@ -436,22 +436,24 @@ function showBaselineInfo (event,element){
       <span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
       <span><b><?= $titolo ?></b></span>
     </div>
-    <div style="float:right;padding-top: 12px;">
-      <form action="index.php">  
+    <div style="padding-top: 12px;  display: flex; align-items: center;">
+      <form action="index.php" style="float: left;margin: auto;">  
         <input type="hidden" value="<?= $key ?>" name="key" id="key">
         <input type="hidden" value="1" name="is_filter" id="is_filter">
-        
+        <input type="hidden" value="1" name="is_filter_colore" id="is_filter_colore">
         <div style="float:left;padding-top: 5px; margin-right: 5px;">  
             <label>Seleziona Famiglia</label>
         </div>
         <div id='div-color' style="float:left;width:300px">
               <?php echo $selectColor ?>
-          
+ 
         </div>
-
-        <div style="float:left;padding-top: 5px;">  
-          <span class="ganttButtonSeparator requireCanSeeCriticalPath"></span>
-        </div>
+              <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra per Famiglia</button>
+      </form>     
+      <form action="index.php"  style="float: left;margin: auto;">  
+        <input type="hidden" value="<?= $key ?>" name="key" id="key">
+        <input type="hidden" value="1" name="is_filter" id="is_filter">
+        <input type="hidden" value="1" name="is_filter_collegamento" id="is_filter_collegamento">
         
         <div style="float:left;padding-top: 5px; margin-right: 5px; margin-left: 5px;">  
             <label>Seleziona Collegamento</label>
@@ -460,7 +462,7 @@ function showBaselineInfo (event,element){
            <?php echo $selectCollegamento ?>  
          </div>
 
-        <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra</button>
+        <button type="submit" class="button first big " style="margin-left:10px;margin-right:10px;">Filtra per Collegamento</button>
       </form>
   </div>
   -->
@@ -791,7 +793,7 @@ $(document).on("change", "#load-file", function() {
           unselectAll : 'Deseleziona tutto'
       }
     })
-    getSelectCollegamento();
+    //getSelectCollegamento();
     
   }
 
@@ -807,7 +809,7 @@ $(document).on("change", "#load-file", function() {
             unselectAll : 'Deseleziona tutto'
         }
       })
-      getSelectColor();
+      //getSelectColor();
   }
 
   function getSelectCollegamento(){

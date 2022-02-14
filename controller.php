@@ -65,16 +65,25 @@ function RGBToHSL($RGB) {
 
 $arrColorSelected = (isset($_REQUEST['selectColor']) ? $_REQUEST['selectColor'] : array() );
 //var_dump($arrColorSelected);
-$arrCollegamento = (isset($_REQUEST['selectCollegamento']) ? $_REQUEST['selectCollegamento'] : array() );
-$is_filter = (isset($_REQUEST['is_filter']) ? $_REQUEST['is_filter'] : 0 );
+$arrCollegamento        = (isset($_REQUEST['selectCollegamento']) ? $_REQUEST['selectCollegamento'] : array() );
+$is_filter              = (isset($_REQUEST['is_filter']) ? $_REQUEST['is_filter'] : 0 );
+$is_filter_collegamento = (isset($_REQUEST['is_filter_collegamento']) ? $_REQUEST['is_filter_collegamento'] : 0 );
+$is_filter_colore       = (isset($_REQUEST['is_filter_colore']) ? $_REQUEST['is_filter_colore'] : 0 );
 
 if(isset($_REQUEST['key'])){
   $key=$_REQUEST['key'];
   //die();
 } else {
-  $key="GNT220100000002";
-  $key="GNT220200000003";
-  //$key="GNT220100000003";
+
+  if($_SERVER['SERVER_NAME'] == 'gantt.leofrance.localhost'){
+
+    $key="GNT220100000002";
+    $key="GNT220200000003";
+    $key="GNT220200000023";
+    //$key="GNT220100000003";
+  }else {
+    echo "<div style='text-align:center;'><h2>Chiave Gantt Mancante!</h2></div>";die;
+  }
 }
 
 $options = array(
@@ -87,7 +96,7 @@ $options = array(
 try{
     $client = new SoapClient(URL_ERP, $options);
 } catch (SoapFault $e) {
-   echo "<div style='text-align:center;'><h2>Errore connessione recupero dati!</h2></div>";
+   echo "<div style='text-align:center;'><h2>Errore connessione recupero dati!</h2></div>";die;
 }        
 
 $CContext["codeLang"] = CODE_LANG;
@@ -110,8 +119,12 @@ $xmlInput = '<PARAM>
 $result = $client->run($CContext, $subprog, $xmlInput);                       
 $xml = simplexml_load_string($result->resultXml);
 $status = (int) trim($result->status);
-$titolo = $result->resultXml;
-
+//$titolo = $result->resultXml;
+foreach ($xml->TAB as $tab) {
+  foreach ($tab->LIN as $lin) {
+    $titolo = (string) $lin->FLD;
+  }
+}
 
 try{
     $client = new SoapClient(URL_ERP, $options);
@@ -166,50 +179,58 @@ if ($status == 1) {
         //creo array generale da xml e creo le select dei filtri
         foreach ($tab->LIN as $lin) {
           $value = (string) $lin->FLD;
-          $arr_value = explode('|',$value);
-          
-          list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;
-          $arrTot[$nome] = array('id'=>$i
-            , 'nome' => trim($nome)
-            ,'color'=> trim($color)
-            ,'parent'=> trim($parent)
-            ,'d_inizio'=> trim($d_inizio)
-            ,'d_fine'=> trim($d_fine)
-            ,'descrizione'=> trim($descrizione)
-            ,'livello'=> trim($livello)
-            ,'colorTag'=> trim($colorTag)
-          );
-          //var_dump($nome);
-          if(in_array($colorTag,$arrColor) === false){
 
-            $arrColor[] = $colorTag;
+          if($value != ''){
+
+            $arr_value = explode('|',$value);
             
-            if( (!empty($arrColorSelected) && in_array($colorTag,$arrColorSelected) !== false && $is_filter)
-                ||empty($arrColorSelected) && !$is_filter
-            ){
-                $selected = 'selected';
-            } else{
-                $selected  = "";
+            list($nome,$d_inizio,$d_fine,$descrizione,$color,$livello,$parent,$colorTag) = $arr_value;
+            $arrTot[$nome] = array('id'=>$i
+              , 'nome' => trim($nome)
+              ,'color'=> trim($color)
+              ,'parent'=> trim($parent)
+              ,'d_inizio'=> trim($d_inizio)
+              ,'d_fine'=> trim($d_fine)
+              ,'descrizione'=> trim($descrizione)
+              ,'livello'=> trim($livello)
+              ,'colorTag'=> trim($colorTag)
+            );
+            //var_dump($nome);
+            if(in_array($colorTag,$arrColor) === false){
+
+              $arrColor[] = $colorTag;
+              
+              if( (!empty($arrColorSelected) && in_array($colorTag,$arrColorSelected) !== false && $is_filter)
+                  ||empty($arrColorSelected) && (!$is_filter || $is_filter_collegamento)
+              ){
+                  $selected = 'selected';
+              } else{
+                  $selected  = "";
+              }
+              
+              $selectColor .= "<option ".$selected." style='background-color:".$color."' value='".trim($colorTag)."'>".trim($colorTag)."</option>";
             }
-            
-            $selectColor .= "<option ".$selected." style='background-color:".$color."' value='".trim($colorTag)."'>".trim($colorTag)."</option>";
-          }
 
-           
-          if($parent != '' && in_array($parent,$arrPadri) === false){
-            $arrPadri[] = trim($parent);
-            if( (!empty($arrCollegamento) && in_array($parent,$arrCollegamento) !== false && $is_filter)
-                ||empty($arrCollegamento) && !$is_filter
-            ){
-                $selected = 'selected';
-            } else{
-                $selected  = "";
+            
+            if($parent != '' && in_array($parent,$arrPadri) === false){
+              $arrPadri[] = trim($parent);
+              if( (!empty($arrCollegamento) && in_array($parent,$arrCollegamento) !== false && $is_filter)
+                  ||empty($arrCollegamento) && (!$is_filter || $is_filter_colore)
+              ){
+                  $selected = 'selected';
+              } else{
+                  $selected  = "";
+              }
+              
+              $selectCollegamento .= "<option ".$selected."  value='".trim($parent)."'>".trim($parent)."</option>";
             }
-            
-            $selectCollegamento .= "<option ".$selected."  value='".trim($parent)."'>".trim($parent)."</option>";
-          }
 
-          $i++;
+            $i++;
+          }
+        }
+
+        if(empty($arrTot)){
+          echo "<div style='text-align:center;'><h2>Nessun dato trovato!</h2></div>";die;
         }
 
         $_SESSION['arrTot'] = $arrTot;
@@ -222,38 +243,48 @@ if ($status == 1) {
         $arrayClean = array();
 
         //verifico colori
-        foreach($arrTot as $k => $a){
-          
-          if( $is_filter && in_array($a['colorTag'],$arrColorSelected) === false ){
+        if($is_filter_colore == 1){
+          foreach($arrTot as $k => $a){
+            
+            if( $is_filter && in_array($a['colorTag'],$arrColorSelected) === false ){
 
-          } else {
-            $arrayClean[$k] = $a;
+            } else {
+              $arrayClean[$k] = $a;
+            }
+
           }
-
+        } else {
+          $arrayClean = $arrTot;
         }
+
 
         $arrayClean2 = array();
         //verifico collegamenti
-        foreach($arrayClean as $k => $a){
-          
-          if( $a['parent'] != '') {
-           
-            if($is_filter){
-              if (  in_array($a['parent'],$arrCollegamento) === false){
-    
-              } else {
-                if(!isset($arrayClean2[$a['parent']])){
-                  $arrayClean2[$a['parent']] = $arrTot[$a['parent']];
-              
-                }
-                $arrayClean2[$k] = $a;
-    
-              }
-            } else {
-              $arrayClean2[$k] = $a;
-            }
-          } 
 
+        if($is_filter_collegamento == 1){
+          foreach($arrayClean as $k => $a){
+            
+            if( $a['parent'] != '') {
+            
+              if($is_filter){
+                if (  in_array($a['parent'],$arrCollegamento) === false){
+      
+                } else {
+                  if(!isset($arrayClean2[$a['parent']])){
+                    $arrayClean2[$a['parent']] = $arrTot[$a['parent']];
+                
+                  }
+                  $arrayClean2[$k] = $a;
+      
+                }
+              } else {
+                $arrayClean2[$k] = $a;
+              }
+            } 
+
+          }
+        } else {
+          $arrayClean2 = $arrayClean;
         }
 
         //riordino l'array per le dipendenze
