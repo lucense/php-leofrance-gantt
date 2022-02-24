@@ -362,7 +362,8 @@ if ($status == 1) {
                   ,"parent" => $parent
                   ,"canWrite" =>  false
                   ,"progress" => 0
-                  ,"duration" => (int) $diff['days']
+                  ,"duration" => (int) $diff['days'] +1
+                  ,"durata" => (int) $diff['days'] +1
                   ,"progressByWorklog" => false
                   ,"relevance" => 0
                   ,"type" => ""
@@ -373,6 +374,8 @@ if ($status == 1) {
                   ,"depends" => (string) $id_parent
                   ,"start" =>$inizio
                   ,"end" => $fine
+                  ,'dataStart' => $d_inizio
+                  ,'dataFine' => $d_fine
                   ,"startIsMilestone" => false
                   ,"endIsMilestone" => false
                   ,"collapsed" => false

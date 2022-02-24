@@ -41,7 +41,7 @@ function getDemoProject(){
 
   ret = <?= $json_data ?>;    
 
-//console.log(ret)
+  //console.log(ret)
   return ret;
 }
 
@@ -501,7 +501,7 @@ function showBaselineInfo (event,element){
     <td class="gdfCell"><input type="text" name="parent"  value="(#=obj.parent#)" class="parent"></td>
     <td class="gdfCell"><input type="text" name="start"  value="" class="date"></td>
     <td class="gdfCell"><input type="text" name="end" value="" class="date"></td>
-    <td class="gdfCell"><input type="text" name="duration" autocomplete="off" value="(#=obj.duration#)"></td>
+    <td class="gdfCell"><input type="text" name="durata"  autocomplete="off" value="(#=obj.durata#)"></td>
   </tr>
   --></div>
 
@@ -779,7 +779,6 @@ $(document).on("change", "#load-file", function() {
 
     initSelectCollegamento();
     initSelectColore();
-  
   })
 
   function initSelectColore(){
