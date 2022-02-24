@@ -65,4 +65,11 @@ aggiunta popup dettaglio -> ganttDrawerSVG -> riga 236 circa
     })
   }
 
-  
+in ganttTask.js è stato modificata la seguente riga
+var startBySuperiors = this.computeStartBySuperiors(start);
+    if (startBySuperiors != start) {
+        //console.log(this.name + ' - ' + start + ' - ' + end)
+        return true;//aggiunto per problemi alle date //this.moveTo(startBySuperiors, false, true);
+    }
+
+isHoliday commentata nel codice    

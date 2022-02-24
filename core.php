@@ -41,6 +41,7 @@ function getDemoProject(){
 
   ret = <?= $json_data ?>;    
 
+//console.log(ret)
   return ret;
 }
 

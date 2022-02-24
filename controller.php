@@ -161,8 +161,7 @@ $json = array(
 );
 
 if ($status == 1) {
-         
-
+         //echo "<pre>";var_dump($xml);die;
 
   foreach ($xml->TAB as $tab) {
         //var_dump($lin);
@@ -315,8 +314,12 @@ if ($status == 1) {
               $color = $a['color'];
               $descrizione = $a['descrizione'];
 
-              $d_inizio =  str_replace( '/', '-',(string) trim($a['d_inizio']));
-              $d_fine =  str_replace( '/', '-',(string) trim($a['d_fine']));
+              
+
+              $d_inizio =  str_replace( '/', '-', $a['d_inizio']);
+              $d_fine =  str_replace( '/', '-', $a['d_fine']);
+
+              
 
               $inizio = strtotime($d_inizio) *1000;
               $fine = strtotime($d_fine) *1000;
@@ -359,7 +362,7 @@ if ($status == 1) {
                   ,"parent" => $parent
                   ,"canWrite" =>  false
                   ,"progress" => 0
-                  ,"duration" => (int) $diff['days'] -1
+                  ,"duration" => (int) $diff['days']
                   ,"progressByWorklog" => false
                   ,"relevance" => 0
                   ,"type" => ""
@@ -380,8 +383,8 @@ if ($status == 1) {
         }
 
       }  
-
-     // var_dump($arr_data);die;
+      //phpinfo();
+    //echo "<pre>";var_dump($arr_data);die;
     //echo "<pre>"; var_dump($arrColorSelected);
     //die();
     $json['tasks'] = $arr_data;
